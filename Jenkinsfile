@@ -4,11 +4,11 @@ node('master'){
                   git 'https://github.com/Palanimks/Inglibrary.git'
               }
    stage('java build'){
-             sh '/opt/maven/bin/mvn clean verify sonar:sonar -Dsonar.password=admin -Dsonar.login=admin'
+             sh '/opt/maven/bin/mvn clean deploy sonar:sonar -Dsonar.password=admin -Dsonar.login=admin'
          }
-   stage("build & SonarQube analysis") {
+    stage("build & SonarQube analysis") {
               withSonarQubeEnv('sonar') {
-                 sh '/opt/maven/bin/mvn clean deploy sonar:sonar'
+                 sh '/opt/maven/bin/mvn clean package sonar:sonar'
               }
           }
       
@@ -20,8 +20,7 @@ node('master'){
               }
           }
       }
-
    stage('Running java backend application'){
              sh 'export JENKINS_NODE_COOKIE=dontKillMe ;nohup java -Dspring.profiles.active=sit -jar $WORKSPACE/target/*.jar &'
          }
-}
+ }
