@@ -9,7 +9,7 @@ node('master'){
               }
           }
    stage('Build'){
-             sh '/opt/maven/bin/mvn clean verify sonar:sonar -Dsonar.password=admin -Dsonar.login=admin'
+             sh '/opt/maven/bin/mvn clean install'
          }
       
       stage("Quality Gate"){
@@ -20,7 +20,7 @@ node('master'){
               }
           }
       }
-   stage('Build'){
+   stage('Deploy'){
              sh '/opt/maven/bin/mvn deploy'
          }
 
